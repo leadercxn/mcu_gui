@@ -1,32 +1,44 @@
+/*
+ * @Description: 
+ * @Author: cxt
+ * @Date: 2022-01-12 00:22:50
+ * @LastEditTime: 2022-01-29 14:27:43
+ * @LastEditors: cxt
+ * @Reference: 
+ */
 #include "FT32f0xx.h"
 #include "led.h"
-#include "ST7789.h"
+#include "lcd.h"
+#include "delay.h"
 
 int main()
 {
-	uint32_t COLOR_ARRAY[] = {WHITE, BLACK, RED, GREEN, CYAN, YELLOW};
-	uint8_t i = 0, j = 0;
-	LED_Init();
+	uint8_t i = 0;
+	uint8_t order = 0;		// 0-->µÝÔö£¬1-->µÝ¼õ
 	LCD_Init();
-
+	UI_Display1();
 	
 	while (1)
 	{
-		i++;
-		if (j >= (sizeof(COLOR_ARRAY)/sizeof(COLOR_ARRAY[0])))
-			j = 0;
-			
-		if (i % 2 == 1)
+		LCD_FillRectanglePercent(120, 75, 275, 105, GREEN, i*10);
+		LCD_FillRectanglePercent(120, 125, 275, 155, BLUE, i*10);
+		if (i >= 10)
 		{
-			LED_On();
+			order = 1;
 		}
-		else
+		else if (i == 0)
 		{
-			LED_Off();
+			order = 0;
 		}
-		delay_ms(1000);
-		LCD_Clear(COLOR_ARRAY[j]);
-		j++;
+		if (order == 1)
+		{
+			i--;
+		}
+		else 
+		{
+			i++;
+		}
+		delay_ms(300);
 	}
 	
 	return 0;

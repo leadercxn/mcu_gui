@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>FT32F030,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CMSIS;..\CMSIS\Include;..\Lib\inc;..\Startup;..\User;..\driver\LED;..\driver\ST7789;..\driver\delay</IncludePath>
+              <IncludePath>..\CMSIS;..\CMSIS\Include;..\Lib\inc;..\Startup;..\User;..\driver\LED;..\driver\ST7789;..\driver\delay;..\driver\LCD</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -406,6 +406,11 @@
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\driver\delay\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>lcd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\driver\LCD\lcd.c</FilePath>
             </File>
           </Files>
         </Group>
