@@ -2,7 +2,7 @@
  * @Description:
  * @Author: cxt
  * @Date: 2022-01-22 09:38:40
- * @LastEditTime: 2022-01-29 14:00:03
+ * @LastEditTime: 2022-02-03 11:06:33
  * @LastEditors: cxt
  * @Reference: 
  */
@@ -55,9 +55,10 @@ void LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t c
 void LCD_DrawThickLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color, uint8_t width);
 void LCD_DrawRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color);
 void LCD_DrawThickRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color, uint8_t width);
-void LCD_FillRectanglePercent(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color, uint8_t rate);
+void LCD_FillRectanglePercent(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color, uint8_t rate, uint16_t *coord_x_end);
+void LCD_ShowTriangle(uint16_t x, uint16_t y, uint16_t base, uint16_t height, uint16_t color, uint8_t width);
+void LCD_ShowBMP(uint16_t x, uint16_t y, uint16_t size, uint16_t height, const unsigned char *bmp, uint16_t color);
 void UI_Display(void);
 void UI_Display1(void);
-
 
 #endif

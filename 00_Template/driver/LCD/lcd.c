@@ -3,6 +3,7 @@
 #include "FONT.H"
 #include "ST7789.h"
 #include "lcd.h"
+#include "picture.h"
 
 uint16_t POINT_COLOR = WHITE;	//画笔颜色
 uint16_t BACK_COLOR  = 0xFFFF;   //背景色 
@@ -175,7 +176,6 @@ void LCD_Init(void)
 void LCD_Clear(uint16_t color)
 {
     _lcd_dev lcddev = GetLCDDev();
-    uint16_t width = lcddev.width * 2;
     // TODO: 数组大小不能用变量替代，可使用malloc开辟内存空间的方法避免
     uint8_t buf[640]; 
 
@@ -427,18 +427,22 @@ void LCD_ShowxNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size,ui
  */
 void LCD_Fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t color)
 {          
-	uint16_t i,j;
+	uint16_t i;
 	uint16_t xlen=0;
+    uint8_t buf[320*2];
+
+    for (i = 0; i < 320*2; i += 2)
+    {
+        buf[i] = (color >> 8);
+        buf[i+1] = (color & 0xff);
+    }
 
     xlen = ex - sx + 1;	 
     for (i = sy; i <= ey; i++)
     {
         LCD_SetCursor(sx, i);      				//设置光标位置 
-        LCD_WriteRAM_Prepare();     			//开始写入GRAM	  
-        for(j=0; j < xlen; j++)
-        {
-            LCD_WriteRAM(color);	            //显示颜色 
-        }	    
+        LCD_WriteRAM_Prepare();     			//开始写入GRAM	
+        WriteBurstData(buf, xlen*2); 
     }	 
 } 
 
@@ -520,9 +524,10 @@ void LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t c
 /**
  * @brief  画粗线
  * 
- * @param[i] argv[i]  [description]
- * @param[i] argv[i]  [description]
- * @param[i] argv[i]  [description]
+ * @param[i] (x1, y1)   端点1
+ * @param[i] (x2, y2)   端点2
+ * @param[i] color      颜色
+ * @param[i] width      宽度
  * 
  * @retval [description] 
  */
@@ -531,7 +536,6 @@ void LCD_DrawThickLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint1
     uint16_t delta_x = x2-x1;
     uint16_t delta_y = y2-y1;
 
-    // 水平/垂直增粗
     for (uint8_t i = 0; i < width; i++)
     {
         if (delta_y == 0)
@@ -541,6 +545,11 @@ void LCD_DrawThickLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint1
         else if (delta_x == 0)
         {
             LCD_DrawLine(x1+i, y1, x2+i, y2, color);
+        }
+        else
+        {
+            // TODO: 斜线增粗有点缺陷
+            LCD_DrawLine(x1+i, y1+i, x2+i, y2+i, color);
         }
     }
 }
@@ -581,11 +590,21 @@ void LCD_DrawThickRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, 
     }
 }
 
-void LCD_FillRectanglePercent(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color, uint8_t rate)
+/**
+ * @brief  按百分比块填充
+ * 
+ * @param[i] (x1, y1)(x2, y2)   块的对角坐标
+ * @param[i] color              填充块颜色
+ * @param[i] rate               填充百分比
+ * @param[i] coord_x_end        保留着上次的横轴终止坐标
+ * 
+ * @retval [description] 
+ */
+void LCD_FillRectanglePercent(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color, uint8_t rate, uint16_t *coord_x_end)
 {
-    // 保留上次的
-    static uint16_t x_end_old = 0;
     uint16_t x_end = x1 + (x2-x1)*rate/100;
+
+    *coord_x_end = (*coord_x_end > x1) ? *coord_x_end : x1;
 
     if (x_end == m_x_start)
     {
@@ -602,14 +621,108 @@ void LCD_FillRectanglePercent(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2
         rate = 100;
     }
 
-    // 对框清屏
-    if (x_end < x_end_old)
+    // (x_new x_old)对这个区间进行填充/清屏操作
+    if (x_end < *coord_x_end)
     {
-        LCD_Fill(x_end, y1+m_thick_rect_width, x_end_old, y2-m_thick_rect_width, BLACK);
+        LCD_Fill(x_end, y1+m_thick_rect_width, *coord_x_end, y2-m_thick_rect_width, BLACK);
+    }
+    else
+    {
+        LCD_Fill(*coord_x_end, y1+m_thick_rect_width, x_end, y2-m_thick_rect_width, color);
     }
 
-    LCD_Fill(x1, y1, x_end, y2, color);
-    x_end_old = x_end;
+    *coord_x_end = x_end;
+}
+
+/**
+ * @brief  画直角三角形， 仅限直角在右下方种类
+ * 
+ * @param[i] (x, y)
+ * @param[i] argv[i]  [description]
+ * @param[i] argv[i]  [description]
+ * 
+ * @retval [description] 
+ */
+void LCD_ShowTriangle(uint16_t x, uint16_t y, uint16_t base, uint16_t height, uint16_t color, uint8_t width)
+{
+    // 三个坐标(x, y), (x+base, y), (x+base, y-height)
+    _lcd_dev lcddev = GetLCDDev();
+    if ((x + base > lcddev.width) || (y-height < 0) || (x > lcddev.width) || (y > lcddev.height))
+    {
+        return ;
+    }
+
+    LCD_DrawThickLine(x, y, (x+base), y, color, width);
+    LCD_DrawThickLine((x+base), y, (x+base), (y-height), color, width);
+    LCD_DrawThickLine(x, y, (x+base), (y-height), color, width);
+}
+
+// LCD_FillTriangle(220, 230, 60, 25, GREEN);
+void LCD_FillTriangle(uint16_t x, uint16_t y, uint16_t base, uint16_t height, uint16_t color, uint8_t rate)
+{
+    // 斜边的表达式
+    int16_t k = -1 * height * 10 / base;
+    uint32_t b = y - k * x /10;
+    uint16_t x_end = base * rate / 100;
+    
+    for (uint16_t i = 0; i < x_end; i++)
+    {
+        LCD_DrawLine(x+i, y, x+i, (k*(x+i)/10+b), color);
+    }
+}
+
+
+/**
+ * @brief  显示bmp图片
+ * 
+ * @param[i] (x, y)     bmp的左上角坐标
+ * @param[i] size       bmp数组大小
+ * @param[i] height     bmp图片高度
+ * @param[i] *bmp       bmp数据
+ * @param[i] color      bmp图片显示颜色
+ * 
+ * @retval void 
+ */
+void LCD_ShowBMP(uint16_t x, uint16_t y, uint16_t size, uint16_t height, const unsigned char *bmp, uint16_t color)
+{
+    uint16_t y0 = y;
+    uint16_t i, k = 0;
+    uint8_t tmp;
+    uint16_t tmp_color = POINT_COLOR;
+    _lcd_dev lcddev = GetLCDDev();
+    POINT_COLOR = color;
+
+    for (i = 0; i < size; i++)
+    {
+        tmp = bmp[i];
+
+        for (k = 0; k < 8; k++)
+        {
+            if (tmp & 0x80)
+            {
+                LCD_DrawPoint(x, y, POINT_COLOR);
+            }
+            
+            tmp <<= 1;
+            y++;
+            if (y > lcddev.height)
+            {
+                return ;
+            }
+
+            if ((y - y0) >= height)
+            {
+                x++;
+                y = y0;
+                if (x > lcddev.width)
+                {
+                    return ;
+                }
+                break;
+            }
+        }
+    }
+    POINT_COLOR = tmp_color;
 }
 
 /**
@@ -697,12 +810,20 @@ void UI_Display1(void)
 
     // 温度显示
     POINT_COLOR = WHITE;
-    LCD_ShowString(60, 220, 16, "TEMP:");
+    LCD_ShowString(60, 218, 16, "TEMP:");
     POINT_COLOR = GREEN;
-    LCD_ShowString(130, 220, 16, "28");
-    LCD_ShowString(150, 220, 16, "C");
+    LCD_ShowString(120, 218, 16, "28");
+    LCD_ShowBMP(138, 218, (sizeof(gImage_dot)/sizeof(gImage_dot[0])), 20, gImage_dot, GREEN);
+    LCD_ShowString(160, 218, 16, "C");
 
     // 风扇标志
+    LCD_ShowBMP(180, 210, (sizeof(gImage_fan)/sizeof(gImage_fan[0])), 30, gImage_fan, GREEN);
 
     // 温度标记条
+    LCD_ShowTriangle(220, 230, 60, 25, GREEN, 2);
+    LCD_FillTriangle(220, 230, 60, 25, GREEN, 60);
 }
+
+
+
+
