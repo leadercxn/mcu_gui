@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "font.h": "c",
+        "FONT.H": "cpp",
+        "st7789.h": "c",
+        "picture.h": "c"
+    }
+}
