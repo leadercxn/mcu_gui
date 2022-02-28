@@ -26,6 +26,11 @@ static lcd_drv_t    m_st7789_obj =
     .wr_pin.gpio_dir                = GPIO_DIR_OUTPUR,
     .wr_pin.gpio_pin                = ST7789_WR_PIN,
 
+    .rd_pin.gpio_port_periph_clk    = ST7789_RD_PORT_PERIPH_CLK,
+    .rd_pin.p_gpio_port             = ST7789_RD_PORT,
+    .rd_pin.gpio_dir                = GPIO_DIR_OUTPUR,
+    .rd_pin.gpio_pin                = ST7789_RD_PIN,
+
     // DB0--PB12, DB1--PB13, DB2--PB14, DB3--PB15, DB4--PC6, DB5--PC7, DB6--PC8, DB7--PC9
     .db0.gpio_port_periph_clk    = ST7789_DB0_PORT_PERIPH_CLK,
     .db0.p_gpio_port             = ST7789_DB0_PORT,
@@ -75,9 +80,9 @@ static lcd_dev_t    m_lcd_obj =
     .height     =   240,
     .id         =   0,
     .dir        =   0,
-    .wramcmd    =   CMD_WRAM,
-    .setxcmd    =   CMD_SETX,
-    .setycmd    =   CMD_SETY,
+    .wramcmd    =   0x2C,
+    .setxcmd    =   0x2A,
+    .setycmd    =   0x2B,
 };
 
 static driver_info_t m_tftlcd_display_obj = 
@@ -167,6 +172,6 @@ void Display_Dynamic(void)
 		{
 			i = 0;
 		}
-		delay_ms(50);
+		delay_ms(1000);
     }
 }

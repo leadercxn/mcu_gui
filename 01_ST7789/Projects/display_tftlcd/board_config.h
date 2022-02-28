@@ -126,6 +126,10 @@
 #define ST7789_WR_PORT                  GPIOC
 #define ST7789_WR_PORT_PERIPH_CLK       RCC_AHBPeriph_GPIOC
 
+#define ST7789_RD_PIN                   GPIO_Pin_4
+#define ST7789_RD_PORT                  GPIOC
+#define ST7789_RD_PORT_PERIPH_CLK       RCC_AHBPeriph_GPIOC
+
 // 打开该开关，DB数据不使用连续pin脚
 #define LCD_DEBUG           
 // DB0--PB12, DB1--PB13, DB2--PB14, DB3--PB15, DB4--PC6, DB5--PC7, DB6--PC8, DB7--PC9

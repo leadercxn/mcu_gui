@@ -79,16 +79,6 @@ int st7789_init(driver_info_t *p_drv)
     IS_NULL(p_drv);
     lcd_drv_t *p_dev = p_drv->dev;
 
-    gpio_config(&p_dev->cs_pin);
-    gpio_config(&p_dev->rst_pin);
-    gpio_config(&p_dev->rs_pin);
-    gpio_config(&p_dev->wr_pin);
-
-    gpio_output_set(&p_dev->cs_pin, 1);
-    gpio_output_set(&p_dev->rst_pin, 1);
-    gpio_output_set(&p_dev->rs_pin, 1);
-    gpio_output_set(&p_dev->wr_pin, 1);
-
     #ifdef  LCD_DEBUG
     gpio_config(&p_dev->db0);
     gpio_config(&p_dev->db1);
@@ -116,9 +106,19 @@ int st7789_init(driver_info_t *p_drv)
     }
     #endif
 
+    gpio_config(&p_dev->cs_pin);
+    gpio_config(&p_dev->rst_pin);
+    gpio_config(&p_dev->rs_pin);
+    gpio_config(&p_dev->wr_pin);
+    gpio_config(&p_dev->rd_pin);
+
+    gpio_output_set(&p_dev->cs_pin, 1);
+    gpio_output_set(&p_dev->rst_pin, 1);
+    gpio_output_set(&p_dev->rs_pin, 1);
+    gpio_output_set(&p_dev->wr_pin, 1);
+    gpio_output_set(&p_dev->rd_pin, 1);
 
 
-	delay_ms(5);
     st7789_write_cmd(p_dev, 0x36);      // 显示扫描方向
     st7789_write_data(p_dev, 0xA0);     // 00:从左到右，从上到下
                                         // A0:从下到上，从左到右
