@@ -1,12 +1,12 @@
 # ignore_files
 
 .vscode/
-Projects/bk-hand-mic-tx/MDK-ARM/Listings/
-Projects/bk-hand-mic-tx/MDK-ARM/Objects/
-Projects/bk-hand-mic-tx/MDK-ARM/DebugConfig/
-Projects/bk-hand-mic-tx/MDK-ARM/Project.uvguix.*
-Projects/bk-hand-mic-tx/MDK-ARM/EventRecorderStub.*
-Projects/bk-hand-mic-tx/MDK-ARM/JLink*
+Projects/display_tftlcd/MDK-ARM/Listings/
+Projects/display_tftlcd/MDK-ARM/Objects/
+Projects/display_tftlcd/MDK-ARM/DebugConfig/
+Projects/display_tftlcd/MDK-ARM/Project.uvguix.*
+Projects/display_tftlcd/MDK-ARM/EventRecorderStub.*
+Projects/display_tftlcd/MDK-ARM/JLink*
 
 
 *.DS_Store/
