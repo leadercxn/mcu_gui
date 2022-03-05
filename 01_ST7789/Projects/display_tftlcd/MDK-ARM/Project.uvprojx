@@ -336,9 +336,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>FT32F030x6,USE_STDPERIPH_DRIVER,USE_FT32F030XX_EVAL,USE_DEFAULT_TIMEOUT_CALLBACK,FT32,DEBUG,</Define>
+              <Define>FT32F030,USE_STDPERIPH_DRIVER,USE_FT32F030XX_EVAL,USE_DEFAULT_TIMEOUT_CALLBACK,FT32,DEBUG,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\;..\..\..\Libraries\CMSIS\Device\FT\FT32F0xx\Include;..\..\..\Libraries\CMSIS\Include;..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\inc;..\..\..\Libraries\FT32F0xx_CPAL_Driver\inc;..\..\..\Utilities\FT32_EVAL\Common;..\..\..\Utilities\FT32_EVAL\FT32F030xx_EVAL;..\..\..\develop_lib\ft_lib\gpio;..\..\..\develop_lib\ft_lib\systick;..\..\..\develop_lib\ft_lib\timer;..\..\..\develop_lib\ft_lib\usart;..\..\..\develop_lib\middle_api\delay;..\..\..\develop_lib\middle_api\mid_gpio;..\..\..\develop_lib\middle_api\mid_systick;..\..\..\develop_lib\middle_api\mid_timer;..\..\..\develop_lib\middle_api\trace;..\..\..\develop_lib\middle_api\queue;..\..\..\develop_lib\ft_lib;..\..\..\develop_lib\middle_api;..\..\..\develop_lib\third_lib;..\..\..\develop_lib\third_lib\app_timer;..\..\..\develop_lib\third_lib\crc32;..\..\..\develop_lib;..\..\..\develop_lib\ft_lib\i2c;..\..\..\develop_lib\ft_lib\flash;..\..\..\develop_lib\ft_lib\timer_pwm;..\..\..\develop_lib\ft_lib\exit;..\..\..\develop_lib\ft_lib\adc;..\..\..\develop_lib\middle_api\tft_8080;..\..\..\develop_lib\middle_api\mid_bk953x;..\..\..\develop_lib\middle_api\mid_flash;..\..\..\develop_lib\middle_api\adc;..\..\..\develop_lib\middle_api\ir;..\..\..\develop_lib\middle_api\pwm;..\..\..\develop_lib\hardware;..\..\..\develop_lib\hardware\bk953x;..\..\..\develop_lib\hardware\ht1621;..\..\..\develop_lib\hardware\st7789;..\..\..\develop_lib\third_lib\app_scheduler;..\app;..\..\..\develop_lib\hardware\st7789;..\..\..\develop_lib\middle_api\mid_tftlcd</IncludePath>
+              <IncludePath>..\;..\..\..\Libraries\CMSIS\Device\FT\FT32F0xx\Include;..\..\..\Libraries\CMSIS\Include;..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\inc;..\..\..\Libraries\FT32F0xx_CPAL_Driver\inc;..\..\..\Utilities\FT32_EVAL\Common;..\..\..\Utilities\FT32_EVAL\FT32F030xx_EVAL;..\..\..\develop_lib\ft_lib\gpio;..\..\..\develop_lib\ft_lib\systick;..\..\..\develop_lib\ft_lib\timer;..\..\..\develop_lib\ft_lib\usart;..\..\..\develop_lib\middle_api\delay;..\..\..\develop_lib\middle_api\mid_gpio;..\..\..\develop_lib\middle_api\mid_systick;..\..\..\develop_lib\middle_api\mid_timer;..\..\..\develop_lib\middle_api\trace;..\..\..\develop_lib\middle_api\queue;..\..\..\develop_lib\ft_lib;..\..\..\develop_lib\middle_api;..\..\..\develop_lib\third_lib;..\..\..\develop_lib\third_lib\app_timer;..\..\..\develop_lib\third_lib\crc32;..\..\..\develop_lib;..\..\..\develop_lib\ft_lib\i2c;..\..\..\develop_lib\ft_lib\flash;..\..\..\develop_lib\ft_lib\timer_pwm;..\..\..\develop_lib\ft_lib\exit;..\..\..\develop_lib\ft_lib\adc;..\..\..\develop_lib\middle_api\tft_8080;..\..\..\develop_lib\middle_api\mid_bk953x;..\..\..\develop_lib\middle_api\mid_flash;..\..\..\develop_lib\middle_api\adc;..\..\..\develop_lib\middle_api\ir;..\..\..\develop_lib\middle_api\pwm;..\..\..\develop_lib\hardware;..\..\..\develop_lib\hardware\bk953x;..\..\..\develop_lib\hardware\ht1621;..\..\..\develop_lib\hardware\st7789;..\..\..\develop_lib\third_lib\app_scheduler;..\app;..\..\..\develop_lib\hardware\st7789;..\..\..\develop_lib\middle_api\mid_tftlcd;..\..\..\Libraries\CMSIS\Device\Include;..\..\..\Libraries\CMSIS\Device;..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -383,14 +383,14 @@
           <GroupName>CMSIS</GroupName>
           <Files>
             <File>
-              <FileName>startup_ft32f030x8.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\..\Libraries\CMSIS\Device\FT\FT32F0xx\Source\Templates\arm\startup_ft32f030x8.s</FilePath>
-            </File>
-            <File>
               <FileName>system_ft32f0xx.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\system_ft32f0xx.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup_ft32f030x8.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\..\Libraries\CMSIS\Device\startup_ft32f030x8.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -418,84 +418,114 @@
           <GroupName>StdPeriph_Driver</GroupName>
           <Files>
             <File>
-              <FileName>FT32f0xx_adc.c</FileName>
+              <FileName>ft32f030x8_adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_adc.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_adc.c</FilePath>
             </File>
             <File>
-              <FileName>FT32f0xx_crc.c</FileName>
+              <FileName>ft32f030x8_comp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_crc.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_comp.c</FilePath>
             </File>
             <File>
-              <FileName>FT32f0xx_crs.c</FileName>
+              <FileName>ft32f030x8_crc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_crs.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_crc.c</FilePath>
             </File>
             <File>
-              <FileName>FT32f0xx_dbgmcu.c</FileName>
+              <FileName>ft32f030x8_crs.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_dbgmcu.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_crs.c</FilePath>
             </File>
             <File>
-              <FileName>FT32f0xx_exti.c</FileName>
+              <FileName>ft32f030x8_dac.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_exti.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_dac.c</FilePath>
             </File>
             <File>
-              <FileName>FT32f0xx_flash.c</FileName>
+              <FileName>ft32f030x8_dbgmcu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_flash.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_dbgmcu.c</FilePath>
             </File>
             <File>
-              <FileName>FT32f0xx_gpio.c</FileName>
+              <FileName>ft32f030x8_dma.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_gpio.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_dma.c</FilePath>
             </File>
             <File>
-              <FileName>FT32f0xx_i2c.c</FileName>
+              <FileName>ft32f030x8_exti.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_i2c.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_exti.c</FilePath>
             </File>
             <File>
-              <FileName>FT32f0xx_iwdg.c</FileName>
+              <FileName>ft32f030x8_flash.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_iwdg.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_flash.c</FilePath>
             </File>
             <File>
-              <FileName>FT32f0xx_misc.c</FileName>
+              <FileName>ft32f030x8_gpio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_misc.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_gpio.c</FilePath>
             </File>
             <File>
-              <FileName>FT32f0xx_pwr.c</FileName>
+              <FileName>ft32f030x8_i2c.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_pwr.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_i2c.c</FilePath>
             </File>
             <File>
-              <FileName>FT32f0xx_rcc.c</FileName>
+              <FileName>ft32f030x8_iwdg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_rcc.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_iwdg.c</FilePath>
             </File>
             <File>
-              <FileName>FT32f0xx_spi.c</FileName>
+              <FileName>ft32f030x8_misc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_spi.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_misc.c</FilePath>
             </File>
             <File>
-              <FileName>FT32f0xx_syscfg.c</FileName>
+              <FileName>ft32f030x8_opa.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_syscfg.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_opa.c</FilePath>
             </File>
             <File>
-              <FileName>FT32f0xx_tim.c</FileName>
+              <FileName>ft32f030x8_pwr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_tim.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_pwr.c</FilePath>
             </File>
             <File>
-              <FileName>FT32f0xx_usart.c</FileName>
+              <FileName>ft32f030x8_rcc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\FT32f0xx_usart.c</FilePath>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_rcc.c</FilePath>
+            </File>
+            <File>
+              <FileName>ft32f030x8_rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_rtc.c</FilePath>
+            </File>
+            <File>
+              <FileName>ft32f030x8_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>ft32f030x8_syscfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_syscfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>ft32f030x8_tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_tim.c</FilePath>
+            </File>
+            <File>
+              <FileName>ft32f030x8_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>ft32f030x8_wwdg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Libraries\FT32F0xx_StdPeriph_Driver\src\ft32f030x8_wwdg.c</FilePath>
             </File>
           </Files>
         </Group>

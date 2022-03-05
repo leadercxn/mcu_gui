@@ -172,6 +172,6 @@ void Display_Dynamic(void)
 		{
 			i = 0;
 		}
-		delay_ms(1000);
+		delay_ms(50);
     }
 }
